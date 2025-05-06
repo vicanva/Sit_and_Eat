@@ -61,25 +61,6 @@
           "other_platform_oauth_client": []
         }
       }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:806487148464:android:cebfbe2a7552b908e9b875",
-        "android_client_info": {
-          "package_name": "vicent.dam.sit_and_eat"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCM1NI1t0miGwJcfG--Ri2fMy9GSw7k2Qg"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
     }
   ],
   "configuration_version": "1"
