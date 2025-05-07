@@ -158,15 +158,18 @@ class ReservationService{
 
       for (var doc in querySnapshot.docs){
         final data = doc.data();
-        if( data['date'] == null || data['status'] == null) continue;
+        if( data['date'] == null || data['status']
+            || data['created_at'] == null) continue;
 
         final reservaDate = (data['date'] as Timestamp).toDate();
+        final reservaCreate = (data['created_at'] as Timestamp).toDate();
         final currentStatus = data['status'] as String;
-        final passedDays = now.difference(reservaDate).inDays;
+        final passDaysDate = now.difference(reservaDate).inDays;
+        final passDaysCreate = now.difference(reservaCreate).inDays;
 
         final bool shouldDelete =
-        (currentStatus == 'canceled' && passedDays >= 3) ||
-        (currentStatus == 'approved' && passedDays >= 1);
+        (currentStatus == 'canceled' && passDaysCreate >= 4) ||
+        (currentStatus == 'approved' && passDaysDate >= 1);
 
         if(shouldDelete){
           await doc.reference.delete();
@@ -220,11 +223,11 @@ class ReservationService{
 
       for (var doc in querySnapshot.docs){
         final data = doc.data();
-        if( data['date'] == null || data['status'] == null) continue;
+        if( data['created_at'] == null) continue;
 
-        final reservaDate = (data['date'] as Timestamp).toDate();
+        final creationDate = (data['created_at'] as Timestamp).toDate();
         final currentStatus = data['status'] as String;
-        final passedMinutes = now.difference(reservaDate).inMinutes;
+        final passedMinutes = now.difference(creationDate).inMinutes;
 
         if(currentStatus == 'canceled' && passedMinutes >= 15){
           await doc.reference.delete();

@@ -73,6 +73,26 @@ class ReservedScreensState  extends State<ReservedScreens> {
       }
   }
 
+  Future<void>_deleteReservations()async{
+    try{
+      //await service.deletePresentation();
+      await service.deleteReservations();
+      debugPrint('Reservas Canceladas eliminadas');
+    }catch (e){
+      debugPrint('Error al eliminar reservas: $e');
+    }
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    _deleteReservations();
+    //
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;

@@ -178,9 +178,6 @@ class LocalReservationsScreenState extends State<LocalReservationsScreen>{
   void initState(){
     super.initState();
     loadRestaurantUid();
-    _reservationService.deleteReservations();
-    //solo para presentacion
-    _reservationService.deletePresentation();
   }
 
   @override
