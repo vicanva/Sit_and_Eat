@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sit_and_eat/Model/company_model.dart';
+import 'package:sit_and_eat/Services/company_service.dart';
 import 'package:sit_and_eat/Services/reservation_service.dart';
 import 'package:sit_and_eat/Widgets/messagesWidget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -91,8 +93,6 @@ class ReservedScreensState  extends State<ReservedScreens> {
   }
 
 
-
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -119,13 +119,13 @@ class ReservedScreensState  extends State<ReservedScreens> {
                 itemBuilder: (context, index) {
                   final reservation = reservations[index];
                   // cambiar formato data
-                  final String restaurName= reservation['name_rest'] ?? 'Restaurante Desconocido';
                   final String dateStr= reservation['date'] != null
                     ? formatDate((reservation['date'] as Timestamp).toDate())
                     : 'Fecha desconocida';
                   final String time = reservation['time'] ?? 'Hora desconocida';
                   final String people= reservation['people']?.toString() ?? 'Desconocido';
-                  final EstateReserve status = getReserveStatusFromString(reservation['status'] ?? 'processing');
+                  final EstateReserve status = getReserveStatusFromString(reservation['status']);
+                  final String compId = reservation['empresa_uid'] ?? '';
 
                   return Card(
                     margin: EdgeInsets.all(screenWidth * 0.03),
@@ -141,24 +141,30 @@ class ReservedScreensState  extends State<ReservedScreens> {
                           Text('Restaurante:',
                             style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),
                           ),
-
-                            Container( padding: EdgeInsets.symmetric(horizontal: 6,vertical: 3),
-                              decoration: BoxDecoration(
-                                color: getBackgroundColor(status),
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: Text(status.displayName,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: _getStatusColor(status),
-                          ),
+                          Container( padding: EdgeInsets.symmetric(horizontal: 6,vertical: 3),
+                            decoration: BoxDecoration(
+                              color: getBackgroundColor(status),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(status.displayName,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: _getStatusColor(status),
+                            ),
                           ),
                           ),
                           ],
                           ),
-                          Text(restaurName,
-                            style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),
+                          compId.isNotEmpty ? CompanyInfoWidget(
+                            compId: compId,
+                            companyService:  CompanyService(),
+                          ) : const Column(
+                            children: [
+                              Text('Nombre Rest : Desconocido'),
+                              Text('Direción : Calle desconocida'),
+                              Text('Ciudad : Ciudad desconocida'),
+                            ],
                           ),
                           SizedBox(height: 8),
                           Text('Fecha: $dateStr',
@@ -191,6 +197,50 @@ class ReservedScreensState  extends State<ReservedScreens> {
           }
         },
       ),
+    );
+  }
+}
+
+
+// Widget para mostrar los datos de la empresa usando getCompanyData
+class CompanyInfoWidget extends StatelessWidget {
+  final String compId;
+  final CompanyService companyService;
+
+  const CompanyInfoWidget({
+    Key? key,
+    required this.compId,
+    required this.companyService,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<CompanyModel?>(
+      future: companyService.getCompanyData(compId),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Padding(
+            padding: EdgeInsets.symmetric(vertical: 8.0),
+            child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.hasError) {
+          return const Text('Error al cargar datos de la empresa');
+        } else if (!snapshot.hasData || snapshot.data == null) {
+          return const Text('Información de la empresa no disponible');
+        } else {
+          final company = snapshot.data!;
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('${company.nameRest}',
+                style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),
+              ),
+              Text('Dirección: ${company.address}'),
+              Text('Ciudad: ${company.city}'),
+            ],
+          );
+        }
+      },
     );
   }
 }

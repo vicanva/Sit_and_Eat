@@ -1,5 +1,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:sit_and_eat/Model/company_model.dart';
 import 'package:sit_and_eat/Services/user_service.dart';
 
@@ -16,6 +17,19 @@ class CompanyService{
       );
     }catch (e){
       throw Exception('Error al agregar empresa: $e');
+    }
+  }
+
+  Future <CompanyModel?> getCompanyData(String compId) async {
+    try{
+      DocumentSnapshot doc = await _companyCollec.doc(compId).get();
+      if (doc.exists && doc.data() != null){
+        return CompanyModel.fromFirestore(doc.data() as Map<String,dynamic>, doc.id);
+      }
+      return null;
+    } catch (e){
+      debugPrint('Error al obtener los datos de la empresa: $e');
+      return null;
     }
   }
 

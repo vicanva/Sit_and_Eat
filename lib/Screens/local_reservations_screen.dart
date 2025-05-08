@@ -7,6 +7,8 @@ import 'package:sit_and_eat/Widgets/messagesWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../Model/user_model.dart';
+
 class LocalReservationsScreen extends StatefulWidget{
   const LocalReservationsScreen({super.key});
 
@@ -91,10 +93,16 @@ class LocalReservationsScreenState extends State<LocalReservationsScreen>{
 
     final EstateReserve status = getReserveStatusFromString(reservation['status'] ?? 'processing');
 
-    return FutureBuilder<String>(
-        future: _userService.getUserName(reservation['cliente_uid'] ?? ''),
+    return FutureBuilder<UserModel?>(
+        future: _userService.getUserData(reservation['cliente_uid'] ?? ''),
         builder: (context,snapshot){
-          final clientName= snapshot.data ?? 'Cliente Desconocido';
+          if(snapshot.connectionState == ConnectionState.waiting){
+            return Center(child: CircularProgressIndicator());
+          }
+          if(snapshot.hasError){
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+          final user = snapshot.data!;
 
           return Card(
             margin: EdgeInsets.all(screenWidth * 0.03),
@@ -109,7 +117,7 @@ class LocalReservationsScreenState extends State<LocalReservationsScreen>{
                   children: [
                   Text(
                     'Cliente:',
-                    style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),
                   ),
                   DropdownButton<String>(
                     value: status.name,
@@ -143,9 +151,10 @@ class LocalReservationsScreenState extends State<LocalReservationsScreen>{
                   ],
                   ),
                   Text(
-                    clientName,
-                    style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
+                    user.nameUser,
+                    style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),
                   ),
+                  Text('Telf: ${user.phone}'),
                   Text('Fecha: $dateStr',style: TextStyle(fontSize: 16),),
                   Text('Hora: ${reservation['time'] ?? 'Hora Desconocida'}',
                     style: TextStyle(fontSize: 16),),
