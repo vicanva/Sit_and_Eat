@@ -2,7 +2,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-
 class MessagesWidget extends StatefulWidget{
   final String reservationId;
   final Future<void> Function(String reservationId,Map<String,dynamic> message) addMessage;
@@ -14,7 +13,6 @@ class MessagesWidget extends StatefulWidget{
     required this.addMessage,
     required this.sender,
 });
-
 
   static void showTheDialog(BuildContext context, {
     required String reservationId,
@@ -112,8 +110,6 @@ class MessagesWidgetState extends State<MessagesWidget>{
               ),
             if(messages.isNotEmpty)
               Expanded(child: ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
                 itemCount: messages.length,
                 itemBuilder: (context, index) {
                   final msg = messages[index];
@@ -131,11 +127,11 @@ class MessagesWidgetState extends State<MessagesWidget>{
                 child: TextField(
                   controller: _messageController,
                   decoration: InputDecoration(
-                    labelText: 'Escribe tu mensaje (max 30 caracteres)',
+                    labelText: 'Escribe tu mensaje (max 40 caracteres)',
                     border: OutlineInputBorder(),
-                    counterText: '${_messageController.text.length}/30',
+                    counterText: '${_messageController.text.length}/40',
                   ),
-                  maxLength: 30,
+                  maxLength: 40,
                 ),
               ),
               SizedBox(height: 10),
@@ -143,10 +139,8 @@ class MessagesWidgetState extends State<MessagesWidget>{
                 onPressed: _sendMessage,
                 child: Text('Enviar Mensaje'),
               ),
-
             ],
           );
-
       },
     );
   }

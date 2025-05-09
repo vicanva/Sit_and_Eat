@@ -87,6 +87,15 @@ Stream<List<CompanyModel>> _getListEmpresasByUsu(String uidUser, bool isCompany)
     return Scaffold(
       appBar: AppBar(
         title: Text('Perfil Usuario'),
+        actions: [
+          Padding(padding: const EdgeInsets.only(right: 15.0),
+          child: IconButton(onPressed: _signOut,
+            icon: Icon(Icons.logout),
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red),
+          ),
+          ),
+        ],
       ),
       body: FutureBuilder<UserModel?>(
         future: _user.getUserData(userId),
@@ -189,12 +198,7 @@ Stream<List<CompanyModel>> _getListEmpresasByUsu(String uidUser, bool isCompany)
     style: ElevatedButton.styleFrom(
     backgroundColor: Colors.grey),
     ),
-    ElevatedButton.icon(onPressed: _signOut,
-    label: Text('Cerrar Sesión'),
-    icon: Icon(Icons.logout),
-    style: ElevatedButton.styleFrom(
-    backgroundColor: Colors.red),
-    )
+
     ],
     ),
     ],
