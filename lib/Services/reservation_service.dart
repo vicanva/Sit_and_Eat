@@ -142,11 +142,17 @@ class ReservationService{
         .update({'status': newStatus});
   }
 
-  Future<void> addMessageToReservation(String reservationId, Map<String,dynamic> message) async{
-      final docRef = _db.collection('Reservas').doc(reservationId);
-      await docRef.update({
-        'messages': FieldValue.arrayUnion([message]),
-      });
+  Future<void> addMessageToReservation(String reservationId, Map<String,dynamic> msg) async{
+    final isFromCliente = msg['sender'] == 'Cliente';
+    final actChat = isFromCliente
+    ? 'hasNewMessageForEmpresa'  : 'hasNewMessageForCliente';
+
+    return _db.collection('Reservas')
+        .doc(reservationId)
+        .update({
+          'messages': FieldValue.arrayUnion([msg]),
+          actChat: true,
+        });
   }
 
   Future<void> deleteReservations() async{

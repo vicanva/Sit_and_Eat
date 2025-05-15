@@ -151,6 +151,8 @@ class EscomensarCalendarState extends State<EscomensarCalendar2>{
       people: people,
       status: EstateReserve.processing,
       messages: [],
+      hasNewMessageForCliente: false,
+      hasNewMessageForEmpresa: false,
     );
     Map<String,dynamic> reservationData = reserva.toMap();
 

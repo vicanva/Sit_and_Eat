@@ -77,8 +77,8 @@ class ReservedScreensState  extends State<ReservedScreens> {
 
   Future<void>_deleteReservations()async{
     try{
-      //await service.deletePresentation();
-      await service.deleteReservations();
+      await service.deletePresentation();
+      //await service.deleteReservations();
       debugPrint('Reservas Canceladas eliminadas');
     }catch (e){
       debugPrint('Error al eliminar reservas: $e');
@@ -118,6 +118,7 @@ class ReservedScreensState  extends State<ReservedScreens> {
                 itemCount: reservations.length,
                 itemBuilder: (context, index) {
                   final reservation = reservations[index];
+                  final bool hasUnread = reservation['hasNewMessageForCliente'] as bool? ?? false;
                   // cambiar formato data
                   final String dateStr= reservation['date'] != null
                     ? formatDate((reservation['date'] as Timestamp).toDate())
@@ -175,7 +176,10 @@ class ReservedScreensState  extends State<ReservedScreens> {
                             style: TextStyle(fontSize: 16),),
                           Align(
                             alignment: Alignment.centerRight,
-                            child: ElevatedButton.icon(
+                            child: Stack(
+                            alignment: Alignment.topRight,
+                              children: [
+                                ElevatedButton.icon(
                               icon: Icon(Icons.chat_outlined),
                               label: Text("Abrir Chat"),
                               onPressed: (){
@@ -187,9 +191,24 @@ class ReservedScreensState  extends State<ReservedScreens> {
                                 );
                               },
                             ),
+                      if (hasUnread)
+                        Positioned(
+                  right: 3,
+                  top: 3,
+                  child: Container(
+                  width: 15,
+                  height: 15,
+                  decoration: BoxDecoration(
+                  color: Colors.red,
+                  shape: BoxShape.circle,
+                  ),
+                  ),
                           ),
-                          ]
+                          ],
                       ),
+                    ),
+                  ],
+                  ),
                     ),
                   );
                 }

@@ -87,6 +87,22 @@ class MessagesWidgetState extends State<MessagesWidget>{
   }
 
   @override
+  void initState(){
+    super.initState();
+    _markAsRead();
+  }
+
+  void _markAsRead(){
+    final field = widget.sender == 'Cliente'
+        ? 'hasNewMessageForCliente' : 'hasNewMessageForEmpresa';
+
+    FirebaseFirestore.instance
+    .collection('Reservas')
+    .doc(widget.reservationId)
+    .update({field: false});
+  }
+
+  @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
 

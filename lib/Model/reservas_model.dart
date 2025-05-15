@@ -31,9 +31,11 @@ class ReservasModel{
   final String empresaUid;
   final EstateReserve status;
   final List<Map<String,dynamic>> messages;
+  final bool hasNewMessageForCliente;
+  final bool hasNewMessageForEmpresa;
 
   static const List<String> times = [
-    '13:00', '13:30', '14:00', '14:30', '15:00', '15:30',
+    '10:00', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30',
     '20:00', '20:30', '21:00', '21:30', '22:00', '22:30',
   ];
 
@@ -46,6 +48,8 @@ class ReservasModel{
     required this.empresaUid,
     required this.status,
     required this.messages,
+    this.hasNewMessageForCliente = false,
+    this.hasNewMessageForEmpresa = false,
   }){
     if(!times.contains(time)){
       throw ArgumentError('El tiempo $time no es válido.'
@@ -73,6 +77,8 @@ class ReservasModel{
         messages: (data['messages'] as List<dynamic>? ?? [])
           .map((e) => Map<String,dynamic>.from(e as Map))
           .toList(),
+        hasNewMessageForCliente: data['hasNewMessageForCliente'] as bool? ?? false,
+          hasNewMessageForEmpresa: data['hasNewMessageForEmpresa'] as bool? ?? false,
       );
     } catch (e) {
       throw ArgumentError('Error al convertir ReservasModel: $e');
@@ -89,6 +95,8 @@ class ReservasModel{
       'created_at': Timestamp.fromDate(createdAt),
       'status': status.name,
       'messages': messages,
+      'hasNewMessageForCliente': hasNewMessageForCliente,
+      'hasNewMessageForEmpresa': hasNewMessageForEmpresa,
     };
   }
 
@@ -101,6 +109,8 @@ class ReservasModel{
     String? empresaUid,
     EstateReserve? status,
     List<Map<String,dynamic>>? messages,
+    bool? hasNewMessageForCliente,
+    bool? hasNewMessageForEmpresa,
 }){
     return ReservasModel(
       createdAt: createdAt ?? this.createdAt,

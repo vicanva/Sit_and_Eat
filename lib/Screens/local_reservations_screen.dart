@@ -103,6 +103,7 @@ class LocalReservationsScreenState extends State<LocalReservationsScreen>{
             return Center(child: Text('Error: ${snapshot.error}'));
           }
           final user = snapshot.data!;
+          final hasUnread = reservation['hasNewMessageForEmpresa'] as bool? ?? false;
 
           return Card(
             margin: EdgeInsets.all(screenWidth * 0.03),
@@ -162,7 +163,10 @@ class LocalReservationsScreenState extends State<LocalReservationsScreen>{
                   style: TextStyle(fontSize: 16),),
                   Align(
                     alignment: Alignment.centerRight,
-                    child: ElevatedButton.icon(
+                    child: Stack(
+                      alignment: Alignment.topRight,
+                    children: [
+                    ElevatedButton.icon(
                       icon: Icon(Icons.chat_outlined),
                       label: Text("Abrir Chat"),
                       onPressed: (){
@@ -173,6 +177,21 @@ class LocalReservationsScreenState extends State<LocalReservationsScreen>{
                             sender: 'Empresa',
                         );
                       },
+                    ),
+                      if (hasUnread)
+                        Positioned(
+                        right: 3,
+                        top: 3,
+                        child: Container(
+                          width: 15,
+                          height: 15,
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+            ),
+          ],
                     ),
                   ),
                 ],
