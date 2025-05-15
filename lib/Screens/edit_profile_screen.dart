@@ -1,8 +1,8 @@
 import 'package:sit_and_eat/Model/company_model.dart';
 import 'package:sit_and_eat/Services/company_service.dart';
-import 'package:flutter/material.dart';
 import 'package:sit_and_eat/Model/user_model.dart';
 import 'package:sit_and_eat/Services/user_service.dart';
+import 'package:flutter/material.dart';
 
 
 class EditProfileScreen extends StatefulWidget {

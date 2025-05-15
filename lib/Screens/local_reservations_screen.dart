@@ -4,10 +4,9 @@ import 'package:sit_and_eat/Model/reservas_model.dart';
 import 'package:sit_and_eat/Services/reservation_service.dart';
 import 'package:sit_and_eat/Services/user_service.dart';
 import 'package:sit_and_eat/Widgets/messagesWidget.dart';
+import 'package:sit_and_eat/Model/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-import '../Model/user_model.dart';
 
 class LocalReservationsScreen extends StatefulWidget{
   const LocalReservationsScreen({super.key});

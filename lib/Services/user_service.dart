@@ -1,8 +1,8 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:sit_and_eat/Model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:sit_and_eat/Model/user_model.dart';
+import 'package:flutter/material.dart';
 
 class UserService {
   static final FirebaseFirestore _db = FirebaseFirestore.instance;

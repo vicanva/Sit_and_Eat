@@ -1,8 +1,9 @@
-import 'package:sit_and_eat/Screens/register_screen.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:sit_and_eat/Screens/register_screen.dart';
 import 'package:sit_and_eat/Services/recovPassword.dart';
 import 'home_screen.dart';
+import 'package:flutter/material.dart';
 
 
 class LoginScreen extends StatefulWidget {

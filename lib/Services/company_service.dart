@@ -1,15 +1,14 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:sit_and_eat/Model/company_model.dart';
 import 'package:sit_and_eat/Services/user_service.dart';
+import 'package:flutter/material.dart';
 
 class CompanyService{
   final CollectionReference _companyCollec=
     FirebaseFirestore.instance.collection('Empresas');
 
   final UserService _userService = UserService();
-
 
   Future<void> addCompany(String uidUser,CompanyModel company) async{
     try{

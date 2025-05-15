@@ -1,8 +1,7 @@
-// Widget para mostrar los datos de la empresa usando getCompanyData
 
+import 'package:sit_and_eat/Model/company_model.dart';
+import 'package:sit_and_eat/Services/company_service.dart';
 import 'package:flutter/material.dart';
-import '../Model/company_model.dart';
-import '../Services/company_service.dart';
 
 class CompanyInfoWidget extends StatelessWidget {
   final String compId;

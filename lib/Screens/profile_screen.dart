@@ -4,9 +4,9 @@ import 'package:sit_and_eat/Screens/edit_profile_screen.dart';
 import 'package:sit_and_eat/Screens/login_screen.dart';
 import 'package:sit_and_eat/Services/company_service.dart';
 import 'package:sit_and_eat/Services/user_service.dart';
+import 'package:sit_and_eat/Model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:sit_and_eat/Model/user_model.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});

@@ -1,13 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sit_and_eat/Services/company_service.dart';
 import 'package:sit_and_eat/Services/reservation_service.dart';
 import 'package:sit_and_eat/Widgets/messagesWidget.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:sit_and_eat/Model/reservas_model.dart';
+import 'package:sit_and_eat/Widgets/inforCompanyWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-import '../Model/reservas_model.dart';
-import '../Widgets/inforCompanyWidget.dart';
 
 
 class ReservedScreens extends StatefulWidget {

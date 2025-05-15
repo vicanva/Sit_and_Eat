@@ -1,12 +1,12 @@
 
-import 'package:sit_and_eat/Model/company_model.dart' as modelComp;
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'home_screen.dart';
+import 'package:sit_and_eat/Model/company_model.dart' as modelComp;
 import 'package:sit_and_eat/Widgets/custom_text.dart';
 import 'package:sit_and_eat/Services/auth_service.dart';
 import 'package:sit_and_eat/Services/firestore_service.dart';
 import 'package:sit_and_eat/Model/user_model.dart' as modelUser;
+import 'home_screen.dart';
+import 'package:flutter/material.dart';
 
 
 class RegisterScreen extends StatefulWidget {

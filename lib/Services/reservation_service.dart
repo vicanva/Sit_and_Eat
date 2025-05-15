@@ -2,7 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sit_and_eat/Services/restaurants_service.dart';
 import 'package:sit_and_eat/Services/user_service.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class ReservationService{
   final FirebaseFirestore _db = FirebaseFirestore.instance;
