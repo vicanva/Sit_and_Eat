@@ -73,7 +73,7 @@ class LoginScreenState extends State<LoginScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pantalla Login'),
+        title: Text('Inicia Sesión'),
       ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
@@ -93,6 +93,7 @@ class LoginScreenState extends State<LoginScreen> {
               controller: _passwordController,
               decoration: InputDecoration(
                   labelText: 'Contraseña',
+                  suffixText: 'min 6 car.',
                   suffixIcon: IconButton(
                       onPressed: (){
                         setState((){

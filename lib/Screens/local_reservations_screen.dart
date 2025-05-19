@@ -25,13 +25,13 @@ class LocalReservationsScreenState extends State<LocalReservationsScreen>{
 
   Future<void> loadRestaurantUid() async{
     try{
-      String useruid = await _userService.getUserUid();
-      isCompany = await _userService.isUserCompany(useruid);
+      String userid = await _userService.getUserUid();
+      isCompany = await _userService.isUserCompany(userid);
       if(!isCompany){
         throw Exception('Acceso Denegado.');
       }
 
-      restaurantUid = useruid;
+      restaurantUid = userid;
       setState(() {
         isLoading = false;
       });
@@ -169,7 +169,7 @@ class LocalReservationsScreenState extends State<LocalReservationsScreen>{
                       icon: Icon(Icons.chat_outlined),
                       label: Text("Abrir Chat"),
                       onPressed: (){
-                        MessagesWidget.showTheDialog(
+                        messagesWidget.showTheDialog(
                             context,
                             reservationId: reservation['id'],
                             addMessage: _reservationService.addMessageToReservation,

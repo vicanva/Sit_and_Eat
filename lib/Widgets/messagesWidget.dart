@@ -1,13 +1,16 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sit_and_eat/Services/firestore_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class MessagesWidget extends StatefulWidget{
+
+class messagesWidget extends StatefulWidget{
   final String reservationId;
   final Future<void> Function(String reservationId,Map<String,dynamic> message) addMessage;
   final String sender;
 
-  const MessagesWidget({
+  const messagesWidget({
     super.key,
     required this.reservationId,
     required this.addMessage,
@@ -30,7 +33,7 @@ class MessagesWidget extends StatefulWidget{
           height: screenSize.height * 0.6,
           child: Padding(
             padding: EdgeInsets.all(12),
-            child: MessagesWidget(
+            child: messagesWidget(
               key: ValueKey(reservationId),
               reservationId: reservationId,
               addMessage: addMessage,
@@ -43,11 +46,12 @@ class MessagesWidget extends StatefulWidget{
   }
 
   @override
-  MessagesWidgetState createState() => MessagesWidgetState();
+  messagesWidgetState createState() => messagesWidgetState();
 }
 
-class MessagesWidgetState extends State<MessagesWidget>{
+class messagesWidgetState extends State<messagesWidget>{
   final TextEditingController _messageController = TextEditingController();
+  String? _senderName = '';
 
   Stream<List<Map<String,dynamic>>> _messageStream(){
     return FirebaseFirestore.instance
@@ -64,11 +68,38 @@ class MessagesWidgetState extends State<MessagesWidget>{
     });
   }
 
+  void _loadSenderName() async{
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if(uid == null) return;
+
+    final service = FirestoreService.instance;
+    final name = await service.getSenderName(uid, widget.sender);
+    
+    setState(() {
+      _senderName = name;
+    });
+  }
+
+
   void _sendMessage() async{
+    if(_messageController.text.isEmpty){
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('El mensaje no puede estar vacio'))
+      );
+      return;
+    }
+
+    if(_senderName == null || _senderName!.isEmpty){
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('No se pudo obtener el nombre')),
+      );
+      return;
+    }
+
     if(_messageController.text.isNotEmpty){
       final newMessage = {
         'content': _messageController.text,
-        'sender': widget.sender,
+        'sender': '${widget.sender}: $_senderName',
         'timestamp': Timestamp.now(),
         'idM': DateTime.now().millisecondsSinceEpoch.toString(),
       };
@@ -78,18 +109,22 @@ class MessagesWidgetState extends State<MessagesWidget>{
         SnackBar(content: Text('Mensaje Enviado'))
       );
       _messageController.clear();
-
-    }else{
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('El mensaje no puede estar vacio'))
-      );
     }
+
   }
+
 
   @override
   void initState(){
     super.initState();
     _markAsRead();
+    _loadSenderName();
+  }
+
+  @override
+  void dispose(){
+    _messageController.dispose();
+    super.dispose();
   }
 
   void _markAsRead(){
@@ -130,10 +165,23 @@ class MessagesWidgetState extends State<MessagesWidget>{
                 itemBuilder: (context, index) {
                   final msg = messages[index];
                   return ListTile(
-                    title: Text(msg['content'] ?? 'Mensaje vacio',
+                    title: Align(
+                      alignment: msg['sender'].toString().startsWith('Empresa')
+                      ? Alignment.centerRight : Alignment.centerLeft,
+                    child: Text(
+                      msg['content'] ?? 'Mensaje vacio',
                       style: TextStyle(fontSize: 16),
+                      textAlign: msg['sender'].toString().startsWith('Empresa')
+                      ? TextAlign.right : TextAlign.left,
                     ),
-                    subtitle: Text('Enviado por: ${msg['sender']}'),
+                    ),
+                    subtitle: Align(
+                      alignment: msg['sender'].toString().startsWith('Empresa')
+                      ? Alignment.centerRight : Alignment.centerLeft,
+                    child: Text('${msg['sender']}',
+                      style: TextStyle(fontSize: 10,fontStyle: FontStyle.italic),
+                    ),
+                    ),
                   );
                 },
               ),
@@ -141,14 +189,13 @@ class MessagesWidgetState extends State<MessagesWidget>{
               Padding(
                 padding: EdgeInsets.only(top: screenWidth * 0.03),
                 child: TextField(
-                  controller: _messageController,
-                  decoration: InputDecoration(
-                    labelText: 'Escribe tu mensaje (max 40 caracteres)',
-                    border: OutlineInputBorder(),
-                    counterText: '${_messageController.text.length}/40',
+                    controller: _messageController,
+                    maxLength: 40,
+                    decoration: InputDecoration(
+                      labelText: 'Escribe tu mensaje (max. 40 carac)',
+                      border: OutlineInputBorder(),
+                    ),
                   ),
-                  maxLength: 40,
-                ),
               ),
               SizedBox(height: 10),
               ElevatedButton(

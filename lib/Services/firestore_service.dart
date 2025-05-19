@@ -55,4 +55,18 @@ class FirestoreService {
     }
   }
 
+  Future<String> getSenderName(String uid, String rol) async{
+    final coleccion = rol == 'Cliente' ? 'Usuarios' : 'Empresas';
+    final data = await getData(coleccion,uid);
+
+    if(data == null){
+      return 'Desconocido';
+    }
+    
+    return rol == 'Cliente'
+        ? data['name_user'] ?? 'Desconcido'
+        : data['name_rest'] ?? 'Desconocido';
+  }
+  
+  
 }

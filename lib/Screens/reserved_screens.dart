@@ -182,7 +182,7 @@ class ReservedScreensState  extends State<ReservedScreens> {
                               icon: Icon(Icons.chat_outlined),
                               label: Text("Abrir Chat"),
                               onPressed: (){
-                                MessagesWidget.showTheDialog(
+                                messagesWidget.showTheDialog(
                                   context,
                                   reservationId: reservation['id'],
                                   addMessage: service.addMessageToReservation,
