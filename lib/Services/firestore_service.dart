@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 class FirestoreService {
   FirestoreService._privateConstructor();
 
-  //para que en otras partes pueda llamar a la funcion
   static final FirestoreService instance = FirestoreService
       ._privateConstructor();
 

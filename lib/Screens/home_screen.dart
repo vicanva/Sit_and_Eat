@@ -1,4 +1,4 @@
-import 'package:sit_and_eat/Screens/escomensar_calendar2.dart';
+import 'package:sit_and_eat/Screens/make_reserve.dart';
 import 'package:sit_and_eat/Screens/profile_screen.dart';
 import 'package:sit_and_eat/Screens/reservations_pest_screen.dart';
 import 'package:sit_and_eat/Screens/reserved_screens.dart';
@@ -52,7 +52,7 @@ class HomeScreenState extends State<HomeScreen>{
   Widget _buildCurrentScreen() {
     switch (_selectedIndex) {
       case 0:
-        return EscomensarCalendar2(
+        return MakeReserve(
           userId: FirebaseAuth.instance.currentUser?.uid ?? '',);
 
       case 1:
@@ -64,7 +64,7 @@ class HomeScreenState extends State<HomeScreen>{
         return ProfileScreen();
 
       default:
-        return EscomensarCalendar2(
+        return MakeReserve(
             userId: FirebaseAuth.instance.currentUser?.uid ?? '',);
     }
   }

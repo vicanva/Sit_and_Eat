@@ -9,18 +9,18 @@ import 'package:sit_and_eat/Widgets/time_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-// La Correcta Clase en us
-class EscomensarCalendar2 extends StatefulWidget {
+
+class MakeReserve extends StatefulWidget {
   final String userId;
 
-  const EscomensarCalendar2({
+  const MakeReserve({
     super.key, required this.userId});
 
   @override
-  EscomensarCalendarState createState() => EscomensarCalendarState();
+  MakeReserveState createState() => MakeReserveState();
 }
 
-class EscomensarCalendarState extends State<EscomensarCalendar2>{
+class MakeReserveState extends State<MakeReserve>{
   String? selectedRestaurant;
   String selectedTime = ReservasModel.times.first;
   int people = 1;

@@ -46,23 +46,6 @@ class ReservationService{
     }
   }
 
-  Future<List<Map<String,dynamic>>> getReservationsByLocal(String restaurantUid) async{
-    try{
-      QuerySnapshot query = await _db.collection('Reservas')
-          .where('empresa_uid', isEqualTo: restaurantUid)
-          .get();
-
-      return query.docs.map((doc){
-        var data = doc.data() as Map<String,dynamic>;
-        data['id'] = doc.id;
-        return data;
-      }).toList();
-    }catch (e){
-      debugPrint('Error obteniendo reservas del local: $e');
-      return [];
-    }
-  }
-
   Future<String> getFirstRestaurantUidByUser(String userUid) async{
     try{
       return userUid;

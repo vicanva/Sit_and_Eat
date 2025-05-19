@@ -17,8 +17,6 @@ class RecovPassword{
     }
   }
 
-
-
   Future<void> resetPassword(String email,String newPassword, String oobCode) async{
     try{
       await _auth.confirmPasswordReset(
@@ -30,7 +28,6 @@ class RecovPassword{
       print('Error al restablecer la contraseña: $e');
     }
   }
-
 
   Future <void> sendPasswordResetEmail(BuildContext context, String email) async{
     try{
@@ -44,7 +41,6 @@ class RecovPassword{
       );
     }
   }
-
 
   void showPasswordResetDialog(BuildContext context){
     TextEditingController emailController = TextEditingController();

@@ -4,7 +4,6 @@ import 'package:sit_and_eat/Model/reservas_model.dart';
 
 class ReservasService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
   CollectionReference get _reservasCollection => _firestore.collection('Reservas');
 
   Future<void> crearReserva(ReservasModel reserva) async{
@@ -31,7 +30,6 @@ class ReservasService {
     }
   }
 
-
   Future<ReservasModel?> obtenerReservaById(String reservaId) async{
     try{
       DocumentSnapshot docSnapshot = await _reservasCollection.doc(reservaId).get();
@@ -42,17 +40,8 @@ class ReservasService {
       }else {
         return null;
       }
-
     }catch (e){
       throw Exception('Error al obtener la reserva: $e');
-    }
-  }
-
-  Future<void> actualizarReserva(String reservaId, ReservasModel reserva) async{
-    try{
-      await _reservasCollection.doc(reservaId).delete();
-    }catch (e){
-      throw Exception('Error al eliminar la reserva: $e');
     }
   }
 

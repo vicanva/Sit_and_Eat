@@ -16,7 +16,6 @@ class LocalReservationsScreen extends StatefulWidget{
 }
 
 class LocalReservationsScreenState extends State<LocalReservationsScreen>{
-
   final ReservationService _reservationService = ReservationService();
   final UserService _userService = UserService();
   String restaurantUid = '';
