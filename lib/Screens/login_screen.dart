@@ -93,7 +93,6 @@ class LoginScreenState extends State<LoginScreen> {
               controller: _passwordController,
               decoration: InputDecoration(
                   labelText: 'Contraseña',
-                  suffixText: 'min 6 car.',
                   suffixIcon: IconButton(
                       onPressed: (){
                         setState((){
