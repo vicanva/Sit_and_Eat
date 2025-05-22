@@ -29,6 +29,7 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   Future <void> _login() async {
+    FocusScope.of(context).unfocus();
     if(_emailController.text.isEmpty || _passwordController.text.isEmpty){
       setState(() {
         _errorMessage = 'Complete los campos o Registrese';
@@ -103,6 +104,7 @@ class LoginScreenState extends State<LoginScreen> {
                   ),
               ),
               obscureText: !_isPasswordVisible,
+              keyboardType: TextInputType.visiblePassword,
             ),
             // boton login para entrar
             SizedBox(height: 20),
