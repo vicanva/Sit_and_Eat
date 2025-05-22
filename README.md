@@ -1,16 +1,39 @@
-# sit_and_eat
+# 📱 Sit & Eat
 
-app para reservar mesa
+## 📄 Documentación
 
-## Getting Started
+### 🧾 Detalles
 
-This project is a starting point for a Flutter application.
+- **Nombre de la app:** Sit and Eat  
+- **Objetivo:** Permitir a los usuarios reservar mesa en los restaurantes disponibles  
+- **Público objetivo:** Personas que quieran planear comidas fuera de casa  
 
-A few resources to get you started if this is your first Flutter project:
+---
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### ✨ Características principales
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Reservar mesa seleccionando fecha y hora  
+- Ver estado de la reserva  
+- Cancelar/modificar reserva  
+- Chat para mandar mensajes  
+
+---
+
+### 🛠️ Tecnologías utilizadas
+
+- **Frontend:** Flutter  
+- **Backend:** Firebase  
+- **Base de datos:** Firestore  
+- **Autenticación:** Email y contraseña  
+
+---
+
+### 📦 Descargar
+
+- 📥 **[Descargar Sit & Eat](https://drive.google.com/drive/folders/1qljjxmzwxTzRyJWQhqRQv41dUabift2H?usp=drive_link)**  
+- 🔧 Activa «Instalar apps desde fuentes desconocidas» en tu dispositivo Android  
+- 📲 Instala la app tocando el archivo descargado  
+- 🧑‍💻 Abre la app y regístrate para comenzar
+
+---
+
