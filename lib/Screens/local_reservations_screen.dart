@@ -167,9 +167,14 @@ class LocalReservationsScreenState extends State<LocalReservationsScreen>{
                     ElevatedButton.icon(
                       icon: Icon(Icons.chat_outlined),
                       label: Text("Abrir Chat"),
-                      onPressed: (){
+                      onPressed: () async {
+                        await FirebaseFirestore.instance
+                        .collection('Reservas')
+                        .doc(reservation['id'])
+                        .update({'hasNewMessageForEmpresa': false});
+
                         messagesWidget.showTheDialog(
-                            context,
+                            context: context,
                             reservationId: reservation['id'],
                             addMessage: _reservationService.addMessageToReservation,
                             sender: 'Empresa',

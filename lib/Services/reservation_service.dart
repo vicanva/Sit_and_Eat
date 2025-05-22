@@ -138,6 +138,23 @@ class ReservationService{
         });
   }
 
+  Future<void> clearMessagesNotif(String reservationId, String userType) async{
+    String fieldClear = '';
+
+    if(userType == 'Cliente'){
+      fieldClear = 'hasNewMessageForCliente';
+    }else if(userType == 'Empresa'){
+      fieldClear = 'hasNewMessageForEmpresa';
+    }else{
+      return;
+    }
+
+    await _db.collection('Reservas')
+        .doc(reservationId)
+    .update({fieldClear: false});
+  }
+
+
   Future<void> deleteReservations() async{
     try{
       final now = DateTime.now();

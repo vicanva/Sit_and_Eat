@@ -17,7 +17,8 @@ class messagesWidget extends StatefulWidget{
     required this.sender,
 });
 
-  static void showTheDialog(BuildContext context, {
+  static void showTheDialog({
+    required BuildContext context,
     required String reservationId,
     required Future<void> Function(String reservationId,Map<String,dynamic> message) addMessage,
     required String sender,
@@ -34,7 +35,7 @@ class messagesWidget extends StatefulWidget{
           child: Padding(
             padding: EdgeInsets.all(12),
             child: messagesWidget(
-              key: ValueKey(reservationId),
+              key: UniqueKey(),
               reservationId: reservationId,
               addMessage: addMessage,
               sender: sender,
@@ -105,14 +106,21 @@ class messagesWidgetState extends State<messagesWidget>{
       };
 
       await widget.addMessage(widget.reservationId,newMessage);
+      final opositeField = widget.sender == 'Cliente'
+      ? 'hasNewMessageForEmpresa' : 'hasNewMessageForCliente';
+
+      FirebaseFirestore.instance
+      .collection('Reservas')
+      .doc(widget.reservationId)
+      .update({opositeField: true});
+
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Mensaje Enviado'))
       );
       _messageController.clear();
     }
-
   }
-
 
   @override
   void initState(){
@@ -127,14 +135,18 @@ class messagesWidgetState extends State<messagesWidget>{
     super.dispose();
   }
 
-  void _markAsRead(){
-    final field = widget.sender == 'Cliente'
-        ? 'hasNewMessageForCliente' : 'hasNewMessageForEmpresa';
-
-    FirebaseFirestore.instance
-    .collection('Reservas')
-    .doc(widget.reservationId)
-    .update({field: false});
+  Future<void> _markAsRead() async {
+    if(widget.sender == 'Cliente'){
+      await  FirebaseFirestore.instance
+        .collection('Reservas')
+        .doc(widget.reservationId)
+        .update({'hasNewMessageForCliente': false});
+    } else if (widget.sender == 'Empresa'){
+      await  FirebaseFirestore.instance
+        .collection('Reservas')
+        .doc(widget.reservationId)
+        .update({'hasNewMessageForEmpresa': false});
+    }
   }
 
   @override
